@@ -1,0 +1,803 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>GrowFit - Smart Farming Solutions</title>
+    <link rel="stylesheet" href="styles.css">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <style>
+        /* Add to existing styles */
+        .scroll-to-top {
+            position: fixed;
+            bottom: 30px;
+            right: 30px;
+            background: var(--gold-gradient);
+            color: var(--white);
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            opacity: 0;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+            z-index: 1000;
+        }
+
+        .scroll-to-top.visible {
+            opacity: 1;
+        }
+
+        .scroll-to-top:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 6px 20px rgba(0, 0, 0, 0.3);
+        }
+
+        .feature-card {
+            position: relative;
+            overflow: hidden;
+        }
+
+        .feature-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: var(--gold-gradient);
+            opacity: 0;
+            transition: opacity 0.3s ease;
+            z-index: 1;
+        }
+
+        .feature-card:hover::before {
+            opacity: 0.05;
+        }
+
+        .feature-content {
+            position: relative;
+            z-index: 2;
+        }
+
+        .mobile-menu-btn {
+            display: none;
+            background: none;
+            border: none;
+            color: var(--white);
+            font-size: 1.5rem;
+            cursor: pointer;
+            padding: 0.5rem;
+        }
+
+        @media (max-width: 768px) {
+            .mobile-menu-btn {
+                display: block;
+            }
+        }
+
+        .nav-brand {
+            display: flex;
+            align-items: center;
+        }
+
+        .logo {
+            height: 60px;
+            width: auto;
+        }
+
+        .nav-brand h1 {
+            color: var(--white);
+            font-size: 1.8rem;
+        }
+    </style>
+</head>
+<body>
+    <!-- Add loading screen -->
+    <div class="loading">
+        <div class="loading-spinner"></div>
+    </div>
+
+    <!-- Add scroll to top button -->
+    <div class="scroll-to-top" id="scrollToTop">
+        <i class="fas fa-arrow-up"></i>
+    </div>
+
+    <!-- Welcome Screen -->
+    <div class="welcome-screen">
+        <div class="welcome-content">
+            <h1>नमस्ते</h1>
+            <p>Welcome to GrowFit</p>
+            <div class="language-selection">
+                <h2>Select Your Language / अपनी भाषा चुनें</h2>
+                <div class="language-options">
+                    <button class="language-btn" data-lang="en">
+                        <span class="lang-name">English</span>
+                    </button>
+                    <button class="language-btn" data-lang="hi">
+                        <span class="lang-name">हिंदी</span>
+                    </button>
+                    <button class="language-btn" data-lang="bn">
+                        <span class="lang-name">বাংলা</span>
+                    </button>
+                    <button class="language-btn" data-lang="te">
+                        <span class="lang-name">తెలుగు</span>
+                    </button>
+                    <button class="language-btn" data-lang="mr">
+                        <span class="lang-name">मराठी</span>
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Navigation Bar -->
+    <nav class="navbar">
+        <div class="nav-brand">
+            <img src="logo.png" alt="Grow Logo" class="logo">
+        </div>
+        <div class="search-container">
+            <input type="text" class="search-input" placeholder="Ask about farming..." id="searchInput">
+            <button class="search-button" id="searchButton">
+                <i class="fas fa-search"></i>
+            </button>
+            <div class="search-results" id="searchResults"></div>
+        </div>
+        <button class="mobile-menu-btn" id="mobileMenuBtn">
+            <i class="fas fa-bars"></i>
+        </button>
+        <div class="nav-links">
+            <a href="index.html" class="active">Home</a>
+            <a href="prediction.html">Prediction</a>
+            <a href="community.html">Community</a>
+            <a href="knowledge.html">Knowledge Hub</a>
+            <a href="market.html">Market</a>
+            <a href="profile.html">Profile</a>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <section class="hero">
+        <div class="hero-content">
+            <h1>Smart Farming for Better Tomorrow</h1>
+            <p>AI-powered crop price predictions and farming insights for sustainable agriculture</p>
+            <div class="hero-buttons">
+                <button class="cta-button primary">Get Started</button>
+                <button class="cta-button secondary">Learn More</button>
+            </div>
+        </div>
+        <div class="hero-image-container">
+            <img src="farmer.png" alt="Farmer" class="float-item farmer">
+            <img src="wheat.png" alt="Wheat" class="float-item wheat">
+            <img src="tractor.png" alt="Tractor" class="float-item tractor">
+        </div>
+    </section>
+
+    <!-- Features Section -->
+    <section class="features">
+        <h2>Why Choose GrowFit?</h2>
+        <div class="features-grid">
+            <div class="feature-card">
+                <div class="feature-content">
+                    <div class="feature-icon">
+                        <i class="fas fa-chart-line"></i>
+                    </div>
+                    <h3>Price Prediction</h3>
+                    <p>Get accurate crop price predictions using advanced AI algorithms</p>
+                </div>
+            </div>
+            <div class="feature-card">
+                <i class="fas fa-users"></i>
+                <h3>Farmer Community</h3>
+                <p>Connect with fellow farmers and share knowledge</p>
+            </div>
+            <div class="feature-card">
+                <i class="fas fa-book-reader"></i>
+                <h3>Knowledge Hub</h3>
+                <p>Access latest farming techniques and government schemes</p>
+            </div>
+            <div class="feature-card">
+                <i class="fas fa-store"></i>
+                <h3>Market Intelligence</h3>
+                <p>Real-time market prices and best selling locations</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer Section -->
+    <footer class="footer">
+        <div class="footer-content">
+            <div class="footer-section">
+                <h3>About GrowFit</h3>
+                <p>Empowering farmers with AI-driven insights and community support for sustainable agriculture.</p>
+            </div>
+            <div class="footer-section">
+                <h3>Quick Links</h3>
+                <ul>
+                    <li><a href="prediction.html">Price Prediction</a></li>
+                    <li><a href="knowledge.html">Knowledge Hub</a></li>
+                    <li><a href="community.html">Community</a></li>
+                    <li><a href="market.html">Market Prices</a></li>
+                </ul>
+            </div>
+            <div class="footer-section">
+                <h3>Contact Us</h3>
+                <p>Email: support@growfit.com</p>
+                <p>Phone: +91 1234567890</p>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <p>&copy; 2024 GrowFit. All rights reserved to Binarybyte.</p>
+        </div>
+    </footer>
+
+    <script src="script.js"></script>
+    <script>
+        // Loading screen
+        window.addEventListener('load', () => {
+            const loading = document.querySelector('.loading');
+            loading.classList.add('hidden');
+        });
+
+        // Scroll to top functionality
+        const scrollToTop = document.getElementById('scrollToTop');
+        window.addEventListener('scroll', () => {
+            if (window.pageYOffset > 300) {
+                scrollToTop.classList.add('visible');
+            } else {
+                scrollToTop.classList.remove('visible');
+            }
+        });
+
+        scrollToTop.addEventListener('click', () => {
+            window.scrollTo({
+                top: 0,
+                behavior: 'smooth'
+            });
+        });
+
+        // Mobile menu functionality
+        const mobileMenuBtn = document.getElementById('mobileMenuBtn');
+        const navLinks = document.querySelector('.nav-links');
+
+        mobileMenuBtn.addEventListener('click', () => {
+            navLinks.classList.toggle('active');
+        });
+
+        // Close mobile menu when clicking outside
+        document.addEventListener('click', (e) => {
+            if (!navLinks.contains(e.target) && !mobileMenuBtn.contains(e.target)) {
+                navLinks.classList.remove('active');
+            }
+        });
+
+        // Add smooth scroll for anchor links
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                const target = document.querySelector(this.getAttribute('href'));
+                if (target) {
+                    target.scrollIntoView({
+                        behavior: 'smooth'
+                    });
+                }
+            });
+        });
+
+        // Search functionality
+        const searchInput = document.getElementById('searchInput');
+        const searchButton = document.getElementById('searchButton');
+        const searchResults = document.getElementById('searchResults');
+        let searchTimeout;
+        let responseCache = new Map();
+
+        // Farming-specific prompts based on query type
+        const getPromptForQuery = (query) => {
+            const queryLower = query.toLowerCase();
+            
+            if (queryLower.includes('price') || queryLower.includes('cost')) {
+                return "As a farming market expert, provide specific information about crop prices, market trends, and cost analysis. Include current market rates if possible.";
+            } else if (queryLower.includes('disease') || queryLower.includes('pest')) {
+                return "As a plant pathology expert, provide detailed information about crop diseases, pests, and their management. Include symptoms, prevention, and treatment methods.";
+            } else if (queryLower.includes('weather') || queryLower.includes('climate')) {
+                return "As an agricultural meteorology expert, provide information about weather conditions, climate requirements, and their impact on farming.";
+            } else if (queryLower.includes('soil') || queryLower.includes('fertilizer')) {
+                return "As a soil science expert, provide detailed information about soil types, fertility, and proper fertilization techniques.";
+            } else if (queryLower.includes('government') || queryLower.includes('scheme')) {
+                return "As an agricultural policy expert, provide information about government schemes, subsidies, and support programs for farmers.";
+            } else {
+                return "As a comprehensive farming expert, provide practical, accurate information about farming techniques, best practices, and agricultural knowledge.";
+            }
+        };
+        // Gemini Integration
+    async function getGeminiResponse(query) {
+    // Check cache first
+    if (responseCache.has(query)) {
+        return responseCache.get(query);
+    }
+
+    // Show loading state
+    searchResults.innerHTML = `
+        <div class="search-result-item loading">
+            <span>Searching for farming information...</span>
+        </div>
+    `;
+    searchResults.classList.add('active');
+
+    try {
+        const response = await fetch('https://generativelanguage.googleapis.com/v1beta/models/gemini-pro:generateContent?key=AIzaSyBS82XItCuLx2lcNdM9kAhMIKKIupflJc0', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({
+                contents: [{ parts: [{ text: query }] }]
+            })
+        });
+
+        if (!response.ok) {
+            throw new Error('API request failed');
+        }
+
+        const data = await response.json();
+        const answer = data.candidates?.[0]?.content?.parts?.[0]?.text || 'No response received';
+
+        // Cache the response
+        responseCache.set(query, answer);
+
+        // Clear loading state and show result
+        displaySearchResult(answer);
+        return answer;
+    } catch (error) {
+        console.error('Error fetching response:', error);
+        searchResults.innerHTML = `
+            <div class="search-result-item error">
+                <i class="fas fa-exclamation-circle"></i>
+                <p>Sorry, I encountered an error. Please try again.</p>
+            </div>
+        `;
+        return 'Sorry, I encountered an error. Please try again.';
+    }
+}
+
+function displaySearchResult(answer) {
+    // Format the answer with proper spacing and line breaks
+    const formattedAnswer = answer.replace(/\n/g, '<br>');
+    
+    searchResults.innerHTML = `
+        <div class="search-result-item">
+            <h4>Answer</h4>
+            <p>${formattedAnswer}</p>
+        </div>
+    `;
+    searchResults.classList.add('active');
+}
+
+// Debounced search with minimum character limit
+searchInput.addEventListener('input', () => {
+    clearTimeout(searchTimeout);
+    const query = searchInput.value.trim();
+    
+    if (query.length > 2) {
+        searchTimeout = setTimeout(async () => {
+            await getGeminiResponse(query);
+        }, 500);
+    } else {
+        searchResults.classList.remove('active');
+    }
+});
+
+searchButton.addEventListener('click', async () => {
+    const query = searchInput.value.trim();
+    if (query.length > 2) {
+        await getGeminiResponse(query);
+    }
+});
+
+// Close search results when clicking outside
+document.addEventListener('click', (e) => {
+    if (!searchInput.contains(e.target) && !searchResults.contains(e.target)) {
+        searchResults.classList.remove('active');
+    }
+});
+
+// Handle Enter key
+searchInput.addEventListener('keypress', (e) => {
+    if (e.key === 'Enter') {
+        searchButton.click();
+    }
+});
+
+// Set active nav link based on current page
+document.addEventListener('DOMContentLoaded', () => {
+    const currentPage = window.location.pathname.split('/').pop() || 'index.html';
+    const navLinks = document.querySelectorAll('.nav-links a');
+    
+    navLinks.forEach(link => {
+        if (link.getAttribute('href') === currentPage) {
+            link.classList.add('active');
+        } else {
+            link.classList.remove('active');
+        }
+    });
+});
+
+
+
+
+        // Language translations
+        const translations = {
+            en: {
+                nav: {
+                    home: "Home",
+                    prediction: "Prediction",
+                    community: "Community",
+                    knowledge: "Knowledge Hub",
+                    market: "Market",
+                    profile: "Profile"
+                },
+                hero: {
+                    title: "Smart Farming for Better Tomorrow",
+                    subtitle: "AI-powered crop price predictions and farming insights for sustainable agriculture",
+                    getStarted: "Get Started",
+                    learnMore: "Learn More"
+                },
+                features: {
+                    title: "Why Choose GrowFit?",
+                    prediction: {
+                        title: "Price Prediction",
+                        desc: "Get accurate crop price predictions using advanced AI algorithms"
+                    },
+                    community: {
+                        title: "Farmer Community",
+                        desc: "Connect with fellow farmers and share knowledge"
+                    },
+                    knowledge: {
+                        title: "Knowledge Hub",
+                        desc: "Access latest farming techniques and government schemes"
+                    },
+                    market: {
+                        title: "Market Intelligence",
+                        desc: "Real-time market prices and best selling locations"
+                    }
+                },
+                footer: {
+                    about: {
+                        title: "About GrowFit",
+                        desc: "Empowering farmers with AI-driven insights and community support for sustainable agriculture."
+                    },
+                    quickLinks: {
+                        title: "Quick Links",
+                        prediction: "Price Prediction",
+                        knowledge: "Knowledge Hub",
+                        community: "Community",
+                        market: "Market Prices"
+                    },
+                    contact: {
+                        title: "Contact Us",
+                        email: "Email: support@growfit.com",
+                        phone: "Phone: +91 1234567890"
+                    },
+                    copyright: "© 2024 GrowFit. All rights reserved."
+                },
+                search: {
+                    placeholder: "Ask about farming...",
+                    loading: "Searching for farming information...",
+                    error: "Sorry, I encountered an error. Please try again."
+                }
+            },
+            hi: {
+                nav: {
+                    home: "होम",
+                    prediction: "भविष्यवाणी",
+                    community: "समुदाय",
+                    knowledge: "ज्ञान केंद्र",
+                    market: "बाजार",
+                    profile: "प्रोफ़ाइल"
+                },
+                hero: {
+                    title: "बेहतर कल के लिए स्मार्ट खेती",
+                    subtitle: "टिकाऊ कृषि के लिए AI-संचालित फसल भविष्यवाणी और खेती अंतर्दृष्टि",
+                    getStarted: "शुरू करें",
+                    learnMore: "और जानें"
+                },
+                features: {
+                    title: "ग्रोफिट क्यों चुनें?",
+                    prediction: {
+                        title: "कीमत भविष्यवाणी",
+                        desc: "उन्नत AI एल्गोरिथम का उपयोग करके सटीक फसल कीमत भविष्यवाणी प्राप्त करें"
+                    },
+                    community: {
+                        title: "किसान समुदाय",
+                        desc: "अन्य किसानों से जुड़ें और ज्ञान साझा करें"
+                    },
+                    knowledge: {
+                        title: "ज्ञान केंद्र",
+                        desc: "नवीनतम खेती तकनीकों और सरकारी योजनाओं तक पहुंच प्राप्त करें"
+                    },
+                    market: {
+                        title: "बाजार खुफिया",
+                        desc: "वास्तविक समय बाजार कीमतें और सर्वश्रेष्ठ बिक्री स्थान"
+                    }
+                },
+                footer: {
+                    about: {
+                        title: "ग्रोफिट के बारे में",
+                        desc: "टिकाऊ कृषि के लिए AI-संचालित अंतर्दृष्टि और समुदाय समर्थन के साथ किसानों को सशक्त बनाना।"
+                    },
+                    quickLinks: {
+                        title: "त्वरित लिंक",
+                        prediction: "कीमत भविष्यवाणी",
+                        knowledge: "ज्ञान केंद्र",
+                        community: "समुदाय",
+                        market: "बाजार कीमतें"
+                    },
+                    contact: {
+                        title: "संपर्क करें",
+                        email: "ईमेल: support@growfit.com",
+                        phone: "फोन: +91 1234567890"
+                    },
+                    copyright: "© 2024 ग्रोफिट। सर्वाधिकार सुरक्षित।"
+                },
+                search: {
+                    placeholder: "खेती के बारे में पूछें...",
+                    loading: "खेती की जानकारी खोज रहे हैं...",
+                    error: "क्षमा करें, एक त्रुटि हुई। कृपया पुनः प्रयास करें।"
+                }
+            },
+            bn: {
+                nav: {
+                    home: "হোম",
+                    prediction: "ভবিষ্যদ্বাণী",
+                    community: "কমিউনিটি",
+                    knowledge: "জ্ঞান কেন্দ্র",
+                    market: "বাজার",
+                    profile: "প্রোফাইল"
+                },
+                hero: {
+                    title: "ভালো আগামীর জন্য স্মার্ট কৃষি",
+                    subtitle: "টেকসই কৃষির জন্য AI-চালিত ফসল ভবিষ্যদ্বাণী এবং কৃষি অন্তর্দৃষ্টি",
+                    getStarted: "শুরু করুন",
+                    learnMore: "আরও জানুন"
+                },
+                features: {
+                    title: "কেন গ্রোফিট বেছে নেবেন?",
+                    prediction: {
+                        title: "দাম ভবিষ্যদ্বাণী",
+                        desc: "উন্নত AI অ্যালগরিদম ব্যবহার করে সঠিক ফসলের দামের ভবিষ্যদ্বাণী পান"
+                    },
+                    community: {
+                        title: "কৃষক সম্প্রদায়",
+                        desc: "অন্যান্য কৃষকের সাথে সংযোগ স্থাপন করুন এবং জ্ঞান ভাগ করুন"
+                    },
+                    knowledge: {
+                        title: "জ্ঞান কেন্দ্র",
+                        desc: "নতুন কৃষি কৌশল এবং সরকারি স্কিমে অ্যাক্সেস পান"
+                    },
+                    market: {
+                        title: "বাজার গোয়েন্দা",
+                        desc: "রিয়েল-টাইম বাজার দাম এবং সেরা বিক্রয় স্থান"
+                    }
+                },
+                footer: {
+                    about: {
+                        title: "গ্রোফিট সম্পর্কে",
+                        desc: "টেকসই কৃষির জন্য AI-চালিত অন্তর্দৃষ্টি এবং সম্প্রদায় সহায়তার মাধ্যমে কৃষকদের ক্ষমতায়ন।"
+                    },
+                    quickLinks: {
+                        title: "দ্রুত লিংক",
+                        prediction: "দাম ভবিষ্যদ্বাণী",
+                        knowledge: "জ্ঞান কেন্দ্র",
+                        community: "কমিউনিটি",
+                        market: "বাজার দাম"
+                    },
+                    contact: {
+                        title: "যোগাযোগ করুন",
+                        email: "ইমেইল: support@growfit.com",
+                        phone: "ফোন: +91 1234567890"
+                    },
+                    copyright: "© ২০২৪ গ্রোফিট। সর্বস্বত্ব সংরক্ষিত।"
+                },
+                search: {
+                    placeholder: "কৃষি সম্পর্কে জিজ্ঞাসা করুন...",
+                    loading: "কৃষি তথ্য খুঁজছেন...",
+                    error: "দুঃখিত, এক ত্রুটি ঘটেছে। অনুগ্রহ করে আবার চেষ্টা করুন।"
+                }
+            },
+            te: {
+                nav: {
+                    home: "హోమ్",
+                    prediction: "అంచనా",
+                    community: "కమ్యూనిటీ",
+                    knowledge: "జ్ఞాన కేంద్రం",
+                    market: "మార్కెట్",
+                    profile: "ప్రొఫైల్"
+                },
+                hero: {
+                    title: "మెరుగైన రేపటి కోసం స్మార్ట్ వ్యవసాయం",
+                    subtitle: "స్థిరమైన వ్యవసాయం కోసం AI-ఆధారిత పంట అంచనాలు మరియు వ్యవసాయ అంతర్దృష్టులు",
+                    getStarted: "ప్రారంభించండి",
+                    learnMore: "మరింత తెలుసుకోండి"
+                },
+                features: {
+                    title: "ఎందుకు గ్రోఫిట్ ని ఎంచుకోవాలి?",
+                    prediction: {
+                        title: "ధర అంచనా",
+                        desc: "అధునాతన AI అల్గారిథమ్స్ ఉపయోగించి ఖచ్చితమైన పంట ధరల అంచనాలను పొందండి"
+                    },
+                    community: {
+                        title: "రైతు సమాజం",
+                        desc: "ఇతర రైతులతో కనెక్ట్ అవ్వండి మరియు జ్ఞానాన్ని షేర్ చేయండి"
+                    },
+                    knowledge: {
+                        title: "జ్ఞాన కేంద్రం",
+                        desc: "తాజా వ్యవసాయ పద్ధతులు మరియు ప్రభుత్వ పథకాలకు ప్రాప్యత పొందండి"
+                    },
+                    market: {
+                        title: "మార్కెట్ ఇంటెలిజెన్స్",
+                        desc: "రియల్-టైమ్ మార్కెట్ ధరలు మరియు ఉత్తమమైన అమ్మకం ప్రదేశాలు"
+                    }
+                },
+                footer: {
+                    about: {
+                        title: "గ్రోఫిట్ గురించి",
+                        desc: "స్థిరమైన వ్యవసాయం కోసం AI-ఆధారిత అంతర్దృష్టులు మరియు సమాజ మద్దతుతో రైతులను శక్తివంతం చేయడం."
+                    },
+                    quickLinks: {
+                        title: "త్వరిత లింకులు",
+                        prediction: "ధర అంచనా",
+                        knowledge: "జ్ఞాన కేంద్రం",
+                        community: "కమ్యూనిటీ",
+                        market: "మార్కెట్ ధరలు"
+                    },
+                    contact: {
+                        title: "మమ్మల్ని సంప్రదించండి",
+                        email: "ఈమెయిల్: support@growfit.com",
+                        phone: "ఫోన్: +91 1234567890"
+                    },
+                    copyright: "© 2024 గ్రోఫిట్. అన్ని హక్కులు రక్షించబడ్డాయి."
+                },
+                search: {
+                    placeholder: "వ్యవసాయం గురించి అడగండి...",
+                    loading: "వ్యవసాయ సమాచారం కోసం వెతకుతున్నారు...",
+                    error: "క్షమించండి, ఒక లోపం సంభవించింది. దయచేసి మళ్ళీ ప్రయత్నించండి."
+                }
+            },
+            mr: {
+                nav: {
+                    home: "होम",
+                    prediction: "अंदाज",
+                    community: "समुदाय",
+                    knowledge: "ज्ञान केंद्र",
+                    market: "बाजार",
+                    profile: "प्रोफाइल"
+                },
+                hero: {
+                    title: "उत्तम उद्याच्यासाठी स्मार्ट शेती",
+                    subtitle: "स्थिर शेतीसाठी AI-आधारित पिकांचे अंदाज आणि शेतीचे अंतर्दृष्टी",
+                    getStarted: "सुरू करा",
+                    learnMore: "अधिक जाणून घ्या"
+                },
+                features: {
+                    title: "ग्रोफिट का निवडा का?",
+                    prediction: {
+                        title: "किंमत अंदाज",
+                        desc: "प्रगत AI अल्गोरिदम वापरून पिकांच्या किंमतींचे अचूक अंदाज मिळवा"
+                    },
+                    community: {
+                        title: "शेतकरी समुदाय",
+                        desc: "इतर शेतकऱ्यांशी जोडा आणि ज्ञान शेअर करा"
+                    },
+                    knowledge: {
+                        title: "ज्ञान केंद्र",
+                        desc: "नवीन शेती तंत्रज्ञान आणि सरकारी योजनांमध्ये प्रवेश मिळवा"
+                    },
+                    market: {
+                        title: "बाजार माहिती",
+                        desc: "रीअल-टाईम बाजारभाव आणि उत्तम विक्री स्थाने"
+                    }
+                },
+                footer: {
+                    about: {
+                        title: "ग्रोफिट बद्दल",
+                        desc: "स्थिर शेतीसाठी AI-आधारित अंतर्दृष्टी आणि समुदाय समर्थनाद्वारे शेतकऱ्यांना सक्षम करणे."
+                    },
+                    quickLinks: {
+                        title: "द्रुत दुवे",
+                        prediction: "किंमत अंदाज",
+                        knowledge: "ज्ञान केंद्र",
+                        community: "समुदाय",
+                        market: "बाजारभाव"
+                    },
+                    contact: {
+                        title: "संपर्क साधा",
+                        email: "ईमेल: support@growfit.com",
+                        phone: "फोन: +91 1234567890"
+                    },
+                    copyright: "© 2024 ग्रोफिट. सर्व हक्क राखीव."
+                },
+                search: {
+                    placeholder: "शेतीबद्दल विचारा...",
+                    loading: "शेतीची माहिती शोधत आहे...",
+                    error: "क्षमस्व, एक त्रुटी आली. कृपया पुन्हा प्रयत्न करा."
+                }
+            }
+        };
+
+        // Language selection functionality
+        document.addEventListener('DOMContentLoaded', () => {
+            const languageBtns = document.querySelectorAll('.language-btn');
+            const welcomeScreen = document.querySelector('.welcome-screen');
+            
+            // Check for saved language preference
+            const savedLang = localStorage.getItem('selectedLanguage') || 'en';
+            applyLanguage(savedLang);
+
+            languageBtns.forEach(btn => {
+                btn.addEventListener('click', () => {
+                    const lang = btn.dataset.lang;
+                    localStorage.setItem('selectedLanguage', lang);
+                    applyLanguage(lang);
+                    welcomeScreen.style.display = 'none';
+                });
+            });
+        });
+
+        function applyLanguage(lang) {
+            const t = translations[lang];
+            
+            // Update navigation
+            document.querySelectorAll('.nav-links a').forEach(link => {
+                const key = link.getAttribute('data-translate');
+                if (key) {
+                    link.textContent = t.nav[key];
+                }
+            });
+
+            // Update hero section
+            document.querySelector('.hero-content h1').textContent = t.hero.title;
+            document.querySelector('.hero-content p').textContent = t.hero.subtitle;
+            document.querySelector('.cta-button.primary').textContent = t.hero.getStarted;
+            document.querySelector('.cta-button.secondary').textContent = t.hero.learnMore;
+
+            // Update features section
+            document.querySelector('.features h2').textContent = t.features.title;
+            document.querySelectorAll('.feature-card').forEach(card => {
+                const key = card.getAttribute('data-translate');
+                if (key) {
+                    card.querySelector('h3').textContent = t.features[key].title;
+                    card.querySelector('p').textContent = t.features[key].desc;
+                }
+            });
+
+            // Update footer section
+            document.querySelector('.footer-section:nth-child(1) h3').textContent = t.footer.about.title;
+            document.querySelector('.footer-section:nth-child(1) p').textContent = t.footer.about.desc;
+            
+            document.querySelector('.footer-section:nth-child(2) h3').textContent = t.footer.quickLinks.title;
+            document.querySelectorAll('.footer-section:nth-child(2) ul li a').forEach(link => {
+                const key = link.getAttribute('data-translate');
+                if (key) {
+                    link.textContent = t.footer.quickLinks[key];
+                }
+            });
+            
+            document.querySelector('.footer-section:nth-child(3) h3').textContent = t.footer.contact.title;
+            document.querySelector('.footer-section:nth-child(3) p:nth-child(2)').textContent = t.footer.contact.email;
+            document.querySelector('.footer-section:nth-child(3) p:nth-child(3)').textContent = t.footer.contact.phone;
+            
+            document.querySelector('.footer-bottom p').textContent = t.footer.copyright;
+
+            // Update search placeholder
+            document.querySelector('.search-input').placeholder = t.search.placeholder;
+
+            // Update document title
+            document.title = `GrowFit - ${t.nav.home}`;
+        }
+    </script>
+</body>
+</html> 

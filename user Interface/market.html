@@ -1,0 +1,606 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Market Prices - GrowFit</title>
+    <link rel="stylesheet" href="styles.css">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <style>
+        .market-container {
+            max-width: 1200px;
+            margin: 100px auto 40px;
+            padding: 2rem;
+        }
+
+        .market-header {
+            text-align: center;
+            margin-bottom: 3rem;
+            position: relative;
+        }
+
+        .greeting-text {
+            font-size: 2rem;
+            color: var(--primary-color);
+            margin-bottom: 1rem;
+            min-height: 3rem;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .greeting-text span {
+            display: inline-block;
+            opacity: 0;
+            transform: translateY(20px);
+            animation: fadeInUp 0.5s forwards;
+        }
+
+        @keyframes fadeInUp {
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .market-header h1 {
+            color: var(--primary-color);
+            margin-bottom: 1rem;
+        }
+
+        .market-header p {
+            color: var(--text-color);
+            max-width: 600px;
+            margin: 0 auto;
+        }
+
+        .market-filters {
+            display: flex;
+            gap: 1rem;
+            margin-bottom: 2rem;
+            flex-wrap: wrap;
+        }
+
+        .filter-group {
+            flex: 1;
+            min-width: 200px;
+        }
+
+        .filter-group label {
+            display: block;
+            margin-bottom: 0.5rem;
+            color: var(--text-color);
+            font-weight: 500;
+        }
+
+        .filter-group select {
+            width: 100%;
+            padding: 0.8rem;
+            border: 2px solid var(--light-bg);
+            border-radius: 8px;
+            background: var(--white);
+            color: var(--text-color);
+            font-size: 1rem;
+            transition: border-color 0.3s ease;
+        }
+
+        .filter-group select:focus {
+            border-color: var(--primary-color);
+            outline: none;
+        }
+
+        .market-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+            margin-bottom: 3rem;
+        }
+
+        .market-card {
+            background: var(--white);
+            border-radius: 20px;
+            padding: 1.5rem;
+            box-shadow: var(--shadow);
+            transition: transform 0.3s ease;
+        }
+
+        .market-card:hover {
+            transform: translateY(-5px);
+        }
+
+        .crop-info {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            margin-bottom: 1rem;
+        }
+
+        .crop-icon {
+            width: 50px;
+            height: 50px;
+            background: var(--light-bg);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--primary-color);
+            font-size: 1.5rem;
+        }
+
+        .crop-name {
+            flex: 1;
+        }
+
+        .crop-name h3 {
+            margin: 0;
+            color: var(--text-color);
+        }
+
+        .crop-name p {
+            margin: 0;
+            color: #666;
+            font-size: 0.9rem;
+        }
+
+        .price-info {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 1rem 0;
+            border-top: 2px solid var(--light-bg);
+        }
+
+        .price {
+            color: var(--primary-color);
+            font-size: 1.5rem;
+            font-weight: 600;
+        }
+
+        .price-change {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            font-size: 0.9rem;
+        }
+
+        .price-change.up {
+            color: #22c55e;
+        }
+
+        .price-change.down {
+            color: #ef4444;
+        }
+
+        .market-trends {
+            background: var(--white);
+            border-radius: 20px;
+            padding: 2rem;
+            box-shadow: var(--shadow);
+            margin-bottom: 3rem;
+        }
+
+        .trends-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 2rem;
+        }
+
+        .trends-header h2 {
+            margin: 0;
+            color: var(--text-color);
+        }
+
+        .trends-header select {
+            padding: 0.5rem 1rem;
+            border: 2px solid var(--light-bg);
+            border-radius: 8px;
+            background: var(--white);
+            color: var(--text-color);
+        }
+
+        .market-locations {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 2rem;
+        }
+
+        .location-card {
+            background: var(--light-bg);
+            border-radius: 15px;
+            padding: 1.5rem;
+            text-align: center;
+        }
+
+        .location-card h3 {
+            margin: 0 0 0.5rem;
+            color: var(--text-color);
+        }
+
+        .location-card p {
+            margin: 0;
+            color: #666;
+            font-size: 0.9rem;
+        }
+
+        .demand-indicator {
+            display: inline-block;
+            padding: 0.3rem 0.8rem;
+            border-radius: 15px;
+            font-size: 0.8rem;
+            font-weight: 500;
+            margin-top: 1rem;
+        }
+
+        .demand-high {
+            background: #dcfce7;
+            color: #22c55e;
+        }
+
+        .demand-medium {
+            background: #fef9c3;
+            color: #ca8a04;
+        }
+
+        .demand-low {
+            background: #fee2e2;
+            color: #ef4444;
+        }
+
+        .location-filters {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 1rem;
+            margin-bottom: 2rem;
+        }
+
+        .state-select, .region-select {
+            width: 100%;
+            padding: 0.8rem;
+            border: 2px solid var(--light-bg);
+            border-radius: 8px;
+            background: var(--white);
+            color: var(--text-color);
+            font-size: 1rem;
+            transition: border-color 0.3s ease;
+        }
+
+        .state-select:focus, .region-select:focus {
+            border-color: var(--primary-color);
+            outline: none;
+        }
+
+        .nav-brand {
+            display: flex;
+            align-items: center;
+        }
+
+        .logo {
+            height: 72px;
+            width: auto;
+        }
+    </style>
+</head>
+<body>
+    <!-- Navigation Bar -->
+    <nav class="navbar">
+        <div class="nav-brand">
+            <img src="logo.png" alt="GrowFit Logo" class="logo">
+        </div>
+        <div class="nav-links">
+            <a href="index.html">Home</a>
+            <a href="prediction.html">Prediction</a>
+            <a href="community.html">Community</a>
+            <a href="knowledge.html">Knowledge Hub</a>
+            <a href="market.html" class="active">Market</a>
+            <a href="profile.html">Profile</a>
+        </div>
+    </nav>
+
+    <div class="market-container">
+        <div class="market-header">
+            <div class="greeting-text" id="greetingText"></div>
+            <h1>Market Prices & Trends</h1>
+            <p>Stay updated with real-time crop prices, market trends, and demand across different locations.</p>
+        </div>
+
+        <div class="market-filters">
+            <div class="filter-group">
+                <label for="cropType">Crop Type</label>
+                <select id="cropType">
+                    <option value="all">All Crops</option>
+                    <option value="cereals">Cereals</option>
+                    <option value="pulses">Pulses</option>
+                    <option value="vegetables">Vegetables</option>
+                    <option value="fruits">Fruits</option>
+                </select>
+            </div>
+            <div class="location-filters">
+                <div class="filter-group">
+                    <label for="state">State</label>
+                    <select id="state" class="state-select">
+                        <option value="">Select State</option>
+                        <option value="andhra-pradesh">Andhra Pradesh</option>
+                        <option value="arunachal-pradesh">Arunachal Pradesh</option>
+                        <option value="assam">Assam</option>
+                        <option value="bihar">Bihar</option>
+                        <option value="chhattisgarh">Chhattisgarh</option>
+                        <option value="delhi">Delhi</option>
+                        <option value="goa">Goa</option>
+                        <option value="gujarat">Gujarat</option>
+                        <option value="haryana">Haryana</option>
+                        <option value="himachal-pradesh">Himachal Pradesh</option>
+                        <option value="jammu-kashmir">Jammu & Kashmir</option>
+                        <option value="jharkhand">Jharkhand</option>
+                        <option value="karnataka">Karnataka</option>
+                        <option value="kerala">Kerala</option>
+                        <option value="ladakh">Ladakh</option>
+                        <option value="lakshadweep">Lakshadweep</option>
+                        <option value="madhya-pradesh">Madhya Pradesh</option>
+                        <option value="maharashtra">Maharashtra</option>
+                        <option value="manipur">Manipur</option>
+                        <option value="meghalaya">Meghalaya</option>
+                        <option value="mizoram">Mizoram</option>
+                        <option value="nagaland">Nagaland</option>
+                        <option value="odisha">Odisha</option>
+                        <option value="puducherry">Puducherry</option>
+                        <option value="punjab">Punjab</option>
+                        <option value="rajasthan">Rajasthan</option>
+                        <option value="sikkim">Sikkim</option>
+                        <option value="tamil-nadu">Tamil Nadu</option>
+                        <option value="telangana">Telangana</option>
+                        <option value="tripura">Tripura</option>
+                        <option value="uttar-pradesh">Uttar Pradesh</option>
+                        <option value="uttarakhand">Uttarakhand</option>
+                        <option value="west-bengal">West Bengal</option>
+                    </select>
+                </div>
+                <div class="filter-group">
+                    <label for="region">Region</label>
+                    <select id="region" class="region-select" disabled>
+                        <option value="">Select Region</option>
+                    </select>
+                </div>
+            </div>
+            <div class="filter-group">
+                <label for="sortBy">Sort By</label>
+                <select id="sortBy">
+                    <option value="price-high">Price: High to Low</option>
+                    <option value="price-low">Price: Low to High</option>
+                    <option value="demand">Demand</option>
+                    <option value="trending">Trending</option>
+                </select>
+            </div>
+        </div>
+
+        <div class="market-grid" id="marketGrid">
+            <!-- Market cards will be dynamically added here -->
+        </div>
+
+        <div class="market-trends">
+            <div class="trends-header">
+                <h2>Price Trends</h2>
+                <select id="trendPeriod">
+                    <option value="week">Past Week</option>
+                    <option value="month">Past Month</option>
+                    <option value="year">Past Year</option>
+                </select>
+            </div>
+            <canvas id="trendChart"></canvas>
+        </div>
+
+        <h2>Best Selling Locations</h2>
+        <div class="market-locations">
+            <div class="location-card">
+                <h3>Delhi</h3>
+                <p>Major Market: Azadpur Mandi</p>
+                <span class="demand-indicator demand-high">High Demand</span>
+            </div>
+            <div class="location-card">
+                <h3>Mumbai</h3>
+                <p>Major Market: Vashi APMC</p>
+                <span class="demand-indicator demand-medium">Medium Demand</span>
+            </div>
+            <div class="location-card">
+                <h3>Bangalore</h3>
+                <p>Major Market: K R Market</p>
+                <span class="demand-indicator demand-high">High Demand</span>
+            </div>
+            <div class="location-card">
+                <h3>Chennai</h3>
+                <p>Major Market: Koyambedu</p>
+                <span class="demand-indicator demand-medium">Medium Demand</span>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // State and region data
+        const stateRegions = {
+            'andhra-pradesh': ['Visakhapatnam', 'Vijayawada', 'Guntur', 'Kurnool', 'Tirupati'],
+            'arunachal-pradesh': ['Itanagar', 'Tawang', 'Pasighat', 'Namsai', 'Ziro'],
+            'assam': ['Guwahati', 'Silchar', 'Dibrugarh', 'Jorhat', 'Nagaon'],
+            'bihar': ['Patna', 'Gaya', 'Muzaffarpur', 'Bhagalpur', 'Darbhanga'],
+            'chhattisgarh': ['Raipur', 'Bhilai', 'Bilaspur', 'Korba', 'Raigarh'],
+            'delhi': ['North Delhi', 'South Delhi', 'East Delhi', 'West Delhi', 'Central Delhi'],
+            'gujarat': ['Ahmedabad', 'Surat', 'Vadodara', 'Rajkot', 'Bhavnagar'],
+            'haryana': ['Gurugram', 'Faridabad', 'Panipat', 'Ambala', 'Hisar'],
+            'karnataka': ['Bangalore', 'Mysore', 'Hubli', 'Mangalore', 'Belgaum'],
+            'maharashtra': ['Mumbai', 'Pune', 'Nagpur', 'Nashik', 'Aurangabad'],
+            'tamil-nadu': ['Chennai', 'Coimbatore', 'Madurai', 'Salem', 'Tiruchirappalli'],
+            'uttar-pradesh': ['Lucknow', 'Kanpur', 'Agra', 'Varanasi', 'Prayagraj'],
+            'west-bengal': ['Kolkata', 'Howrah', 'Durgapur', 'Asansol', 'Siliguri']
+            // Add more states and their regions as needed
+        };
+
+        // Greeting animation
+        function animateGreeting() {
+            const greeting = "नमस्ते";
+            const greetingElement = document.getElementById('greetingText');
+            greetingElement.innerHTML = '';
+            
+            greeting.split('').forEach((char, index) => {
+                const span = document.createElement('span');
+                span.textContent = char;
+                span.style.animationDelay = `${index * 0.1}s`;
+                greetingElement.appendChild(span);
+            });
+        }
+
+        // Update regions based on selected state
+        document.getElementById('state').addEventListener('change', function() {
+            const regionSelect = document.getElementById('region');
+            const selectedState = this.value;
+            
+            regionSelect.innerHTML = '<option value="">Select Region</option>';
+            
+            if (selectedState && stateRegions[selectedState]) {
+                regionSelect.disabled = false;
+                stateRegions[selectedState].forEach(region => {
+                    const option = document.createElement('option');
+                    option.value = region.toLowerCase();
+                    option.textContent = region;
+                    regionSelect.appendChild(option);
+                });
+            } else {
+                regionSelect.disabled = true;
+            }
+        });
+
+        // Initialize greeting animation
+        animateGreeting();
+
+        // Sample market data (replace with actual data from backend)
+        const marketData = [
+            {
+                id: 1,
+                name: 'Wheat',
+                category: 'cereals',
+                price: 2200,
+                unit: 'per quintal',
+                change: 5.2,
+                trend: 'up',
+                icon: 'wheat-awn'
+            },
+            {
+                id: 2,
+                name: 'Rice',
+                category: 'cereals',
+                price: 3100,
+                unit: 'per quintal',
+                change: -2.1,
+                trend: 'down',
+                icon: 'seedling'
+            },
+            {
+                id: 3,
+                name: 'Tomatoes',
+                category: 'vegetables',
+                price: 40,
+                unit: 'per kg',
+                change: 12.5,
+                trend: 'up',
+                icon: 'apple-whole'
+            },
+            {
+                id: 4,
+                name: 'Potatoes',
+                category: 'vegetables',
+                price: 25,
+                unit: 'per kg',
+                change: -1.5,
+                trend: 'down',
+                icon: 'apple-whole'
+            }
+        ];
+
+        // Display market cards
+        function displayMarketCards() {
+            const marketGrid = document.getElementById('marketGrid');
+            marketGrid.innerHTML = marketData.map(crop => `
+                <div class="market-card">
+                    <div class="crop-info">
+                        <div class="crop-icon">
+                            <i class="fas fa-${crop.icon}"></i>
+                        </div>
+                        <div class="crop-name">
+                            <h3>${crop.name}</h3>
+                            <p>${crop.category}</p>
+                        </div>
+                    </div>
+                    <div class="price-info">
+                        <div class="price">₹${crop.price} ${crop.unit}</div>
+                        <div class="price-change ${crop.trend}">
+                            <i class="fas fa-arrow-${crop.trend}"></i>
+                            ${Math.abs(crop.change)}%
+                        </div>
+                    </div>
+                </div>
+            `).join('');
+        }
+
+        // Initialize price trend chart
+        function initTrendChart() {
+            const ctx = document.getElementById('trendChart').getContext('2d');
+            new Chart(ctx, {
+                type: 'line',
+                data: {
+                    labels: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun'],
+                    datasets: [{
+                        label: 'Average Price Trend',
+                        data: [2000, 2200, 2150, 2300, 2250, 2400],
+                        borderColor: '#16a34a',
+                        tension: 0.4,
+                        fill: false
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    plugins: {
+                        legend: {
+                            position: 'top',
+                        }
+                    },
+                    scales: {
+                        y: {
+                            beginAtZero: false
+                        }
+                    }
+                }
+            });
+        }
+
+        // Initialize the page
+        displayMarketCards();
+        initTrendChart();
+
+        // Add event listeners for filters
+        document.getElementById('cropType').addEventListener('change', () => {
+            // Filter market data based on crop type
+            displayMarketCards();
+        });
+
+        document.getElementById('state').addEventListener('change', () => {
+            // Filter market data based on state
+            displayMarketCards();
+        });
+
+        document.getElementById('region').addEventListener('change', () => {
+            // Filter market data based on region
+            displayMarketCards();
+        });
+
+        document.getElementById('sortBy').addEventListener('change', () => {
+            // Sort market data based on selected criteria
+            displayMarketCards();
+        });
+
+        document.getElementById('trendPeriod').addEventListener('change', () => {
+            // Update trend chart based on selected period
+            initTrendChart();
+        });
+    </script>
+</body>
+</html> 

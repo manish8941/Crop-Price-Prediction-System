@@ -1,0 +1,320 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Knowledge Hub - GrowFit</title>
+    <link rel="stylesheet" href="styles.css">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <style>
+        .knowledge-container {
+            max-width: 1200px;
+            margin: 100px auto 40px;
+            padding: 2rem;
+        }
+
+        .schemes-section,
+        .techniques-section {
+            background: var(--white);
+            border-radius: 20px;
+            padding: 2rem;
+            margin-bottom: 2rem;
+            box-shadow: var(--shadow);
+        }
+
+        .section-title {
+            color: var(--primary-color);
+            margin-bottom: 2rem;
+            text-align: center;
+            font-size: 2rem;
+        }
+
+        .schemes-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+        }
+
+        .scheme-card {
+            background: var(--light-bg);
+            border-radius: 15px;
+            padding: 1.5rem;
+            transition: transform 0.3s ease;
+        }
+
+        .scheme-card:hover {
+            transform: translateY(-5px);
+        }
+
+        .scheme-card h3 {
+            color: var(--primary-color);
+            margin-bottom: 1rem;
+        }
+
+        .scheme-card p {
+            margin-bottom: 1rem;
+            color: var(--text-color);
+        }
+
+        .scheme-card .read-more {
+            color: var(--secondary-color);
+            text-decoration: none;
+            font-weight: 500;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .techniques-search {
+            margin-bottom: 2rem;
+        }
+
+        .search-box {
+            display: flex;
+            gap: 1rem;
+            margin-bottom: 1rem;
+        }
+
+        .search-input {
+            flex: 1;
+            padding: 1rem;
+            border: 2px solid var(--light-bg);
+            border-radius: 8px;
+            font-size: 1rem;
+        }
+
+        .search-btn {
+            background: var(--primary-color);
+            color: var(--white);
+            border: none;
+            border-radius: 8px;
+            padding: 0 2rem;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+
+        .search-btn:hover {
+            background-color: #45a049;
+        }
+
+        .results-container {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+        }
+
+        .result-card {
+            background: var(--light-bg);
+            border-radius: 15px;
+            padding: 1.5rem;
+            display: flex;
+            flex-direction: column;
+            gap: 1rem;
+        }
+
+        .result-type {
+            display: inline-block;
+            padding: 0.3rem 1rem;
+            border-radius: 15px;
+            font-size: 0.9rem;
+            font-weight: 500;
+        }
+
+        .result-type.article {
+            background: #e3f2fd;
+            color: #1976d2;
+        }
+
+        .result-type.video {
+            background: #fce4ec;
+            color: #c2185b;
+        }
+
+        .result-card h4 {
+            color: var(--text-color);
+            margin: 0;
+        }
+
+        .result-card p {
+            color: #666;
+            font-size: 0.9rem;
+        }
+
+        .result-card a {
+            color: var(--primary-color);
+            text-decoration: none;
+            font-weight: 500;
+        }
+
+        .nav-brand {
+            display: flex;
+            align-items: center;
+        }
+
+        .logo {
+            height: 72px;
+            width: auto;
+        }
+    </style>
+</head>
+<body>
+    <!-- Navigation Bar -->
+    <nav class="navbar">
+        <div class="nav-brand">
+            <img src="logo.png" alt="GrowFit Logo" class="logo">
+        </div>
+        <div class="nav-links">
+            <a href="index.html">Home</a>
+            <a href="prediction.html">Prediction</a>
+            <a href="community.html">Community</a>
+            <a href="knowledge.html" class="active">Knowledge Hub</a>
+            <a href="market.html">Market</a>
+            <a href="profile.html">Profile</a>
+        </div>
+    </nav>
+
+    <div class="knowledge-container">
+        <!-- Government Schemes Section -->
+        <section class="schemes-section">
+            <h2 class="section-title">Government Schemes</h2>
+            <div class="schemes-grid">
+                <div class="scheme-card">
+                    <h3>PM-KISAN</h3>
+                    <p>Direct income support of ₹6,000 per year to farmer families across the country.</p>
+                    <a href="#" class="read-more">Learn More <i class="fas fa-arrow-right"></i></a>
+                </div>
+                <div class="scheme-card">
+                    <h3>Pradhan Mantri Fasal Bima Yojana</h3>
+                    <p>Comprehensive crop insurance scheme to protect farmers from crop losses.</p>
+                    <a href="#" class="read-more">Learn More <i class="fas fa-arrow-right"></i></a>
+                </div>
+                <div class="scheme-card">
+                    <h3>Kisan Credit Card</h3>
+                    <p>Easy access to credit for farmers to meet agricultural and other needs.</p>
+                    <a href="#" class="read-more">Learn More <i class="fas fa-arrow-right"></i></a>
+                </div>
+            </div>
+        </section>
+
+        <!-- Farming Techniques Section -->
+        <section class="techniques-section">
+            <h2 class="section-title">Farming Techniques & Resources</h2>
+            <div class="techniques-search">
+                <div class="search-box">
+                    <input type="text" class="search-input" placeholder="Search for farming techniques, methods, or topics...">
+                    <button class="search-btn">Search</button>
+                </div>
+            </div>
+            <div class="results-container">
+                <div class="result-card">
+                    <span class="result-type article">Article</span>
+                    <h4>Modern Irrigation Techniques</h4>
+                    <p>Learn about the latest irrigation methods to improve crop yield and water efficiency.</p>
+                    <a href="#">Read Article</a>
+                </div>
+                <div class="result-card">
+                    <span class="result-type video">Video</span>
+                    <h4>Organic Farming Methods</h4>
+                    <p>Step-by-step guide to implementing organic farming practices in your field.</p>
+                    <a href="#">Watch Video</a>
+                </div>
+                <div class="result-card">
+                    <span class="result-type article">Article</span>
+                    <h4>Soil Health Management</h4>
+                    <p>Essential practices for maintaining and improving soil fertility.</p>
+                    <a href="#">Read Article</a>
+                </div>
+            </div>
+        </section>
+    </div>
+
+    <!-- Footer Section -->
+    <footer class="footer">
+        <div class="footer-content">
+            <div class="footer-section">
+                <h3>About GrowFit</h3>
+                <p>Empowering farmers with AI-driven insights and community support for sustainable agriculture.</p>
+            </div>
+            <div class="footer-section">
+                <h3>Quick Links</h3>
+                <ul>
+                    <li><a href="prediction.html">Price Prediction</a></li>
+                    <li><a href="knowledge.html">Knowledge Hub</a></li>
+                    <li><a href="community.html">Community</a></li>
+                    <li><a href="market.html">Market Prices</a></li>
+                </ul>
+            </div>
+            <div class="footer-section">
+                <h3>Contact Us</h3>
+                <p>Email: support@growfit.com</p>
+                <p>Phone: +91 1234567890</p>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <p>&copy; 2024 GrowFit. All rights reserved to Binarybytes.</p>
+        </div>
+    </footer>
+
+    <script>
+        // Search functionality
+        const searchInput = document.querySelector('.search-input');
+        const searchBtn = document.querySelector('.search-btn');
+        const resultsContainer = document.querySelector('.results-container');
+
+        searchBtn.addEventListener('click', () => {
+            const query = searchInput.value.trim();
+            if (query) {
+                // Simulate search results (replace with actual API call)
+                searchResources(query);
+            }
+        });
+
+        searchInput.addEventListener('keypress', (e) => {
+            if (e.key === 'Enter') {
+                const query = searchInput.value.trim();
+                if (query) {
+                    searchResources(query);
+                }
+            }
+        });
+
+        function searchResources(query) {
+            // Simulate loading state
+            resultsContainer.innerHTML = '<p>Searching...</p>';
+
+            // Simulate API call delay
+            setTimeout(() => {
+                // Mock results (replace with actual API response)
+                const results = [
+                    {
+                        type: 'article',
+                        title: `Results for: ${query}`,
+                        description: 'Relevant farming techniques and methods found.',
+                        link: '#'
+                    },
+                    {
+                        type: 'video',
+                        title: 'Tutorial Video',
+                        description: 'Step-by-step guide related to your search.',
+                        link: '#'
+                    }
+                ];
+
+                displayResults(results);
+            }, 1000);
+        }
+
+        function displayResults(results) {
+            resultsContainer.innerHTML = results.map(result => `
+                <div class="result-card">
+                    <span class="result-type ${result.type}">${result.type}</span>
+                    <h4>${result.title}</h4>
+                    <p>${result.description}</p>
+                    <a href="${result.link}">${result.type === 'article' ? 'Read Article' : 'Watch Video'}</a>
+                </div>
+            `).join('');
+        }
+    </script>
+</body>
+</html> 

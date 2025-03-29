@@ -1,0 +1,429 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Crop Prediction - GrowFit</title>
+    <link rel="stylesheet" href="styles.css">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <style>
+        .prediction-container {
+            max-width: 1200px;
+            margin: 100px auto 40px;
+            padding: 2rem;
+        }
+
+        .prediction-form-container {
+            background: var(--white);
+            border-radius: 20px;
+            padding: 2rem;
+            box-shadow: var(--shadow);
+        }
+
+        .prediction-title {
+            color: var(--primary-color);
+            text-align: center;
+            margin-bottom: 2rem;
+            font-size: 2rem;
+        }
+
+        .prediction-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+        }
+
+        .input-group {
+            margin-bottom: 1.5rem;
+        }
+
+        .input-group label {
+            display: block;
+            margin-bottom: 0.5rem;
+            color: var(--text-color);
+            font-weight: 500;
+        }
+
+        .input-group input,
+        .input-group select {
+            width: 100%;
+            padding: 0.8rem;
+            border: 2px solid var(--light-bg);
+            border-radius: 8px;
+            font-size: 1rem;
+            transition: border-color 0.3s ease;
+        }
+
+        .input-group input:focus,
+        .input-group select:focus {
+            border-color: var(--primary-color);
+            outline: none;
+        }
+
+        .predict-btn {
+            background: var(--primary-color);
+            color: var(--white);
+            padding: 1rem 2rem;
+            border: none;
+            border-radius: 8px;
+            font-size: 1.1rem;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            width: 100%;
+            margin-top: 1rem;
+        }
+
+        .predict-btn:hover {
+            background: #45a049;
+            transform: translateY(-2px);
+        }
+
+        .result-section {
+            margin-top: 2rem;
+            padding: 2rem;
+            background: var(--light-bg);
+            border-radius: 15px;
+            display: none;
+        }
+
+        .result-section.active {
+            display: block;
+            animation: fadeIn 0.5s ease-out;
+        }
+
+        .result-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 1.5rem;
+        }
+
+        .prediction-value {
+            font-size: 2rem;
+            color: var(--primary-color);
+            font-weight: 600;
+        }
+
+        .confidence-score {
+            background: rgba(76, 175, 80, 0.1);
+            padding: 0.5rem 1rem;
+            border-radius: 20px;
+            color: var(--primary-color);
+            font-weight: 500;
+        }
+
+        .trend-analysis {
+            margin-top: 1.5rem;
+        }
+
+        .trend-chart {
+            width: 100%;
+            height: 300px;
+            background: var(--white);
+            border-radius: 8px;
+            margin-top: 1rem;
+            padding: 1rem;
+        }
+
+        .recommendations {
+            margin-top: 1.5rem;
+        }
+
+        .recommendation-item {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            margin-bottom: 1rem;
+            padding: 1rem;
+            background: var(--white);
+            border-radius: 8px;
+        }
+
+        .recommendation-icon {
+            color: var(--primary-color);
+            font-size: 1.5rem;
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(10px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .nav-brand {
+            display: flex;
+            align-items: center;
+        }
+
+        .logo {
+            height: 72px;
+            width: auto;
+        }
+    </style>
+</head>
+<body>
+    <!-- Navigation Bar -->
+    <nav class="navbar">
+        <div class="nav-brand">
+            <img src="logo.png" alt="GrowFit Logo" class="logo">
+        </div>
+        <div class="nav-links">
+            <a href="index.html">Home</a>
+            <a href="prediction.html" class="active">Prediction</a>
+            <a href="community.html">Community</a>
+            <a href="knowledge.html">Knowledge Hub</a>
+            <a href="market.html">Market</a>
+            <a href="profile.html">Profile</a>
+        </div>
+    </nav>
+
+    <div class="prediction-container">
+        <div class="prediction-form-container">
+            <h2 class="prediction-title">Crop Price Prediction</h2>
+            <form id="predictionForm">
+                <div class="prediction-grid">
+                    <div class="input-group">
+                        <label for="crop">Select Crop</label>
+                        <select id="crop" required>
+                            <option value="">Choose a crop</option>
+                            <option value="wheat">Wheat</option>
+                            <option value="rice">Rice</option>
+                            <option value="cotton">Cotton</option>
+                            <option value="sugarcane">Sugarcane</option>
+                        </select>
+                    </div>
+                    <div class="input-group">
+                        <label for="season">Growing Season</label>
+                        <select id="season" required>
+                            <option value="">Select season</option>
+                            <option value="kharif">Kharif</option>
+                            <option value="rabi">Rabi</option>
+                            <option value="zaid">Zaid</option>
+                        </select>
+                    </div>
+                    <div class="input-group">
+                        <label for="state">State</label>
+                        <select id="state" required>
+                            <option value="">Select State</option>
+                            <option value="andhra-pradesh">Andhra Pradesh</option>
+                            <option value="arunachal-pradesh">Arunachal Pradesh</option>
+                            <option value="assam">Assam</option>
+                            <option value="bihar">Bihar</option>
+                            <option value="chhattisgarh">Chhattisgarh</option>
+                            <option value="delhi">Delhi</option>
+                            <option value="goa">Goa</option>
+                            <option value="gujarat">Gujarat</option>
+                            <option value="haryana">Haryana</option>
+                            <option value="himachal-pradesh">Himachal Pradesh</option>
+                            <option value="jammu-kashmir">Jammu & Kashmir</option>
+                            <option value="jharkhand">Jharkhand</option>
+                            <option value="karnataka">Karnataka</option>
+                            <option value="kerala">Kerala</option>
+                            <option value="ladakh">Ladakh</option>
+                            <option value="lakshadweep">Lakshadweep</option>
+                            <option value="madhya-pradesh">Madhya Pradesh</option>
+                            <option value="maharashtra">Maharashtra</option>
+                            <option value="manipur">Manipur</option>
+                            <option value="meghalaya">Meghalaya</option>
+                            <option value="mizoram">Mizoram</option>
+                            <option value="nagaland">Nagaland</option>
+                            <option value="odisha">Odisha</option>
+                            <option value="puducherry">Puducherry</option>
+                            <option value="punjab">Punjab</option>
+                            <option value="rajasthan">Rajasthan</option>
+                            <option value="sikkim">Sikkim</option>
+                            <option value="tamil-nadu">Tamil Nadu</option>
+                            <option value="telangana">Telangana</option>
+                            <option value="tripura">Tripura</option>
+                            <option value="uttar-pradesh">Uttar Pradesh</option>
+                            <option value="uttarakhand">Uttarakhand</option>
+                            <option value="west-bengal">West Bengal</option>
+                        </select>
+                    </div>
+                    <div class="input-group">
+                        <label for="area">Area (in acres)</label>
+                        <input type="number" id="area" min="0.1" step="0.1" required>
+                    </div>
+                    <div class="input-group">
+                        <label for="rainfall">Expected Rainfall (mm)</label>
+                        <input type="number" id="rainfall" min="0" required>
+                    </div>
+                    <div class="input-group">
+                        <label for="soil">Soil Type</label>
+                        <select id="soil" required>
+                            <option value="">Select soil type</option>
+                            <option value="black">Black Soil</option>
+                            <option value="alluvial">Alluvial Soil</option>
+                            <option value="red">Red Soil</option>
+                            <option value="laterite">Laterite Soil</option>
+                        </select>
+                    </div>
+                </div>
+                <button type="submit" class="predict-btn">
+                    <i class="fas fa-chart-line"></i> Predict Price
+                </button>
+            </form>
+        </div>
+
+        <!-- Prediction Results Section -->
+        <div class="result-section" id="resultSection">
+            <div class="result-header">
+                <div>
+                    <h3>Predicted Price</h3>
+                    <div class="prediction-value">₹<span id="predictedPrice">0</span>/quintal</div>
+                </div>
+                <div class="confidence-score">
+                    Confidence: <span id="confidenceScore">0</span>%
+                </div>
+            </div>
+
+            <div class="trend-analysis">
+                <h3>Price Trend Analysis</h3>
+                <div class="trend-chart" id="trendChart">
+                    <!-- Chart will be rendered here -->
+                </div>
+            </div>
+
+            <div class="recommendations">
+                <h3>Recommendations</h3>
+                <div id="recommendationsList">
+                    <!-- Recommendations will be added here -->
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Footer Section -->
+    <footer class="footer">
+        <div class="footer-content">
+            <div class="footer-section">
+                <h3>About GrowFit</h3>
+                <p>Empowering farmers with AI-driven insights and community support for sustainable agriculture.</p>
+            </div>
+            <div class="footer-section">
+                <h3>Quick Links</h3>
+                <ul>
+                    <li><a href="prediction.html">Price Prediction</a></li>
+                    <li><a href="knowledge.html">Knowledge Hub</a></li>
+                    <li><a href="community.html">Community</a></li>
+                    <li><a href="market.html">Market Prices</a></li>
+                </ul>
+            </div>
+            <div class="footer-section">
+                <h3>Contact Us</h3>
+                <p>Email: support@growfit.com</p>
+                <p>Phone: +91 1234567890</p>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <p>&copy; 2024 GrowFit. All rights reserved to Binarybytes.</p>
+        </div>
+    </footer>
+
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script>
+        document.getElementById('predictionForm').addEventListener('submit', async (e) => {
+            e.preventDefault();
+            
+            // Show loading state
+            const submitBtn = e.target.querySelector('button');
+            const originalText = submitBtn.innerHTML;
+            submitBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Predicting...';
+            submitBtn.disabled = true;
+
+            try {
+                // Collect form data
+                const formData = {
+                    crop: document.getElementById('crop').value,
+                    season: document.getElementById('season').value,
+                    state: document.getElementById('state').value,
+                    area: document.getElementById('area').value,
+                    rainfall: document.getElementById('rainfall').value,
+                    soil: document.getElementById('soil').value
+                };
+
+                // Simulate API call (replace with actual API endpoint)
+                const prediction = await getPrediction(formData);
+                displayResults(prediction);
+            } catch (error) {
+                console.error('Prediction failed:', error);
+                alert('Failed to get prediction. Please try again.');
+            } finally {
+                submitBtn.innerHTML = originalText;
+                submitBtn.disabled = false;
+            }
+        });
+
+        async function getPrediction(data) {
+            // Simulate API delay
+            await new Promise(resolve => setTimeout(resolve, 2000));
+
+            // Mock prediction data (replace with actual API response)
+            return {
+                price: Math.floor(Math.random() * 3000) + 2000,
+                confidence: Math.floor(Math.random() * 10) + 90,
+                trend: {
+                    labels: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun'],
+                    values: [2200, 2300, 2400, 2350, 2500, 2450]
+                },
+                recommendations: [
+                    'Best time to sell: Next 2 weeks',
+                    'Consider storing for better prices in upcoming festival season',
+                    'Check government procurement centers for better rates'
+                ]
+            };
+        }
+
+        function displayResults(prediction) {
+            // Show result section
+            const resultSection = document.getElementById('resultSection');
+            resultSection.classList.add('active');
+
+            // Update prediction values
+            document.getElementById('predictedPrice').textContent = prediction.price;
+            document.getElementById('confidenceScore').textContent = prediction.confidence;
+
+            // Create trend chart
+            const ctx = document.getElementById('trendChart').getContext('2d');
+            new Chart(ctx, {
+                type: 'line',
+                data: {
+                    labels: prediction.trend.labels,
+                    datasets: [{
+                        label: 'Price Trend',
+                        data: prediction.trend.values,
+                        borderColor: '#4CAF50',
+                        tension: 0.4
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    plugins: {
+                        legend: {
+                            display: false
+                        }
+                    }
+                }
+            });
+
+            // Display recommendations
+            const recommendationsList = document.getElementById('recommendationsList');
+            recommendationsList.innerHTML = prediction.recommendations.map(rec => `
+                <div class="recommendation-item">
+                    <i class="fas fa-lightbulb recommendation-icon"></i>
+                    <p>${rec}</p>
+                </div>
+            `).join('');
+
+            // Scroll to results
+            resultSection.scrollIntoView({ behavior: 'smooth' });
+        }
+    </script>
+</body>
+</html> 

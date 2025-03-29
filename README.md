@@ -56,6 +56,7 @@ npm run dev
 Open your browser and navigate to:
 http://localhost:3000
 Project Structure
+
 growfit/
 ├── frontend/
 │   ├── src/
@@ -73,6 +74,8 @@ growfit/
 │   │   └── server.js
 │   └── package.json
 └── README.md
+
+
 Contributing
 Fork the repository
 Create your feature branch (git checkout -b feature/amazing-feature)
